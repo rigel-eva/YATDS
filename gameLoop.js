@@ -37,7 +37,7 @@ function redrawScreen(){
   //Doing a basic screen clear
   canvasContext.fillStyle="#000000";
   canvasContext.fillRect(0,0,width, height)
-  stars.draw(canvasContext)
+  //stars.draw(canvasContext)
   ship.draw(canvasContext)
   if(!stopAnimating){
     window.requestAnimationFrame(redrawScreen)
