@@ -4,6 +4,8 @@ var width;        //width of our canvas
 var height;       //height of our canvas
 var canvasContext;//Canvas Context
 var stars;        //our stars
+var ship;         //THe Player Ship
+var img;
 function init(){
   //Setting up our canvas
   console.log("Preping Canvas")
@@ -24,9 +26,10 @@ function init(){
   var img=new Image();
   img.src="./Player_Ship_Standin.png";
   img.onload = function() {
-    canvasContext.drawImage(img, 20,20);
+    console.log("Assembling Ship")
+    ship=new playerShip(stateMachine,width,height,img)
+    redrawScreen()
   }
-  window.requestAnimationFrame(redrawScreen)
 }
 function redrawScreen(){
   console.log("Redrawed!")
@@ -34,6 +37,7 @@ function redrawScreen(){
   canvasContext.fillStyle="#000000";
   canvasContext.fillRect(0,0,width, height)
   stars.draw(canvasContext)
+  ship.draw(canvasContext)
   window.requestAnimationFrame(redrawScreen)
   //Drawing our stuff
 }
