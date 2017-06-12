@@ -9,7 +9,7 @@ class stateMachine{
   }
   updateState(e){
     var myState=(e.type=="keydown");
-    console.log(myState);
+    //console.log(myState);
     switch(e.keyCode){
       case 37:
         this.left=myState;
@@ -24,9 +24,8 @@ class stateMachine{
         this.down=myState;
         break;
       default:
-        console.log("wat.jpg")
         break;
     }
-    console.log("up: "+this.up+" left: "+this.left+" down: "+this.down+" right: "+this.right)
+    //console.log("up: "+this.up+" left: "+this.left+" down: "+this.down+" right: "+this.right)
   }
 }
