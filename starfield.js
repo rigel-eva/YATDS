@@ -23,7 +23,6 @@ class starfield{
     //And putting our image data to the canvas
     canvasContext.putImageData(imageData,0,0)
     //first we need to move our stars down by 1
-
     for(var i=this.height-1; i>0; i--){//This increments our height
       for(var j=this.width-1; j>=0; j--){//and this increments our width
         this.starArray[i*this.width+j]=this.starArray[(i-1)*this.width+j]
@@ -31,7 +30,8 @@ class starfield{
     }
     //and finally, lets generate our next row
     for(var i=0; i<this.width;i++){
-      this.starArray[i]=1==Math.floor(Math.random()*100)//making it so there is a 1 in 20 chance for a star being generated
+      this.starArray[i]=1==Math.floor(Math.random()*1000)//making it so there is a 1 in 1000 chance for a star being generated
     }
+    //And let's cleanup
   }
 }
