@@ -8,6 +8,7 @@ var stars;        //our stars
 var ship;         //The Player Ship
 var img;          //Image
 var enemies;
+var iv
 var stopAnimating=false
 function init(){
   //Setting up our canvas
@@ -34,12 +35,21 @@ function init(){
     ship=new playerShip(sm,width,height,img)
     redrawScreen()
   }//*/
+  iv=window.setInterval(step,10)
   redrawScreen()
-  window.setInterval(step,10)
 }
 function step(){//Handles steping our state
   enemies.step()
   //ship.step()
+}
+function stop(){
+  clearInterval(iv)
+  iv=false
+  stopAnimating=true
+}
+function start(){
+  stopAnimating=false
+  redrawScreen()
 }
 function redrawScreen(){
   //console.log("Redrawed!")
@@ -52,5 +62,8 @@ function redrawScreen(){
   //ship.draw(canvasContext)
   if(!stopAnimating){
     window.requestAnimationFrame(redrawScreen)
+    if(!iv){
+      iv=window.setInterval(step,10)
+    }
   }
 }
