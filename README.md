@@ -7,7 +7,6 @@ This is my attempt to try to make a game purely with Javascript, and the HTML ca
 ## Controls
 
 Arrow keys - Move your ship around</br>
-Shoot - Needs to be implemented</br>
 
 ## Debug Commands
 The Following commands need to be put into the web console to work:
