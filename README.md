@@ -2,7 +2,7 @@
 
 ## Intro
 
-This is my attempt to try to make a game purely with Javascript, and the HTML canvas, I wouldn't expect too much from it, I'm primarily building it to try to figure out some canvas stuff, so don't expect it to be well optimized or Particuarlly polished.
+This is my attempt to try to make a game purely with Javascript, and the HTML canvas, I wouldn't expect too much from it, I'm primarily building it to try to figure out some canvas stuff, so don't expect it to be well optimized or particularly polished.
 
 ## Controls
 
