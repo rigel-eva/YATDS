@@ -30,17 +30,16 @@ function init(){
   var img=new Image();
   enemies=new enemyHandler();
   img.src="./Player_Ship_Standin.png";
-  /*img.onload = function() {
+  img.onload = function() {
     console.log("Assembling Ship")
     ship=new playerShip(sm,width,height,img)
+    iv=window.setInterval(step,10)
     redrawScreen()
-  }//*/
-  iv=window.setInterval(step,10)
-  redrawScreen()
+  }//
 }
 function step(){//Handles steping our state
   enemies.step()
-  //ship.step()
+  ship.step()
 }
 function stop(){
   clearInterval(iv)
@@ -59,7 +58,7 @@ function redrawScreen(){
   //Drawing our stuff
   stars.draw(canvasContext)
   enemies.draw(canvasContext)
-  //ship.draw(canvasContext)
+  ship.draw(canvasContext)
   if(!stopAnimating){
     window.requestAnimationFrame(redrawScreen)
     if(!iv){
