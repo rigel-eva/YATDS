@@ -31,7 +31,7 @@ class basicEnemy extends enemy{
     super(xPos,yPos)
     this.width = 40
     this.height = 40
-    this.move = 1
+    this.move = .5
     this.shot=false
   }
   step () {
@@ -61,7 +61,6 @@ class basicEnemy extends enemy{
 class enemyHandler{
   constructor(){
     this.enemies=[]
-    this.enemies.push(new basicEnemy(0,0))
   }
   step(){
     for(var i=0; i<this.enemies.length;i++){
