@@ -37,24 +37,25 @@ function init(){
   img.onload = function() {
     console.log("Assembling Ship")
     ship=new playerShip(sm,width,height,img)
-    iv=window.setInterval(step,10)
+    iv=window.setInterval(step,5)
     redrawScreen()
   }//
   //Setting up our enemies
   enemies=new enemyHandler();
   spawns=[]
-  spawns[30]=function(){enemies.enemies.push(new basicEnemy(0,0))}
-  spawns[100]=spawns[30]
-  spawns[200]=spawns[30]
+  var spawnBasic=function(){enemies.enemies.push(new basicEnemy(0,0))}
+  for(var i=0; i<10; i++){
+    for(var j=0; j<10; j++){
+      spawns[i*2000+j*100]=spawnBasic
+    }
+  }
 }
 function isFunction(functionToCheck) {//Taken from: https://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
  var getType = {};
  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 function step(){//Handles steping our state
-  //First, let's increment our tick count
-  tickNum++;
-  //Second, let's check to see if either our guy is hit, or an enemy is height
+  //First, let's check to see if either our guy is hit, or an enemy is height
   for(var i=0; i<ship.shotsFired.length;i++){
     for(var j=0; j<enemies.enemies.length;j++){
       enemies.enemies[j].hit(ship.shotsFired[i].xPos,ship.shotsFired[i].yPos)
@@ -72,6 +73,8 @@ function step(){//Handles steping our state
   if(isFunction(spawns[tickNum])){
     spawns[tickNum]();
   }
+  //Finally, we are going to increment our tick count
+  tickNum++;
 }
 function stop(){
   clearInterval(iv)
