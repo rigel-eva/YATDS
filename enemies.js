@@ -47,7 +47,10 @@ class basicEnemy extends enemy{
     canvasContext.fillRect(this.xPos,this.yPos,this.width,this.height)
   }
   hit(xPos, yPos){
-    if(yPos>=this.yPos&&yPos<=(this.yPos+this.height)&&xPos>=this.xPos&&xPos<=(this.xPos+this.width)){
+    if(yPos>=this.yPos&&
+      yPos<this.yPos+this.height&&
+      xPos>=this.xPos&&
+      xPos<this.xPos+this.width){
       this.shot=true
     }
   }
