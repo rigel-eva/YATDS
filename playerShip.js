@@ -40,7 +40,14 @@ class playerShip{
   draw(canvasContext){
     //Then, let's actually render our ship
     canvasContext.drawImage(this.sprite,this.x,this.y);
+
+    //And the Rendering our bullets
     for(var i=0; i<this.shotsFired.length;i++){
+      if(!this.shotsFired[i].onScreen()){//if it isn't on screen
+        this.shotsFired.splice(i,1);
+        i--;
+        continue;
+      }
       this.shotsFired[i].draw(canvasContext);
     }
   }
@@ -63,5 +70,8 @@ class playerBullet{
     canvasContext.strokeStyle="green";
     canvasContext.lineWidth=5;
     canvasContext.stroke();
+  }
+  onScreen(){
+    return this.yPos>-10
   }
 }
