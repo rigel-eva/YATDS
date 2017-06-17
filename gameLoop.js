@@ -38,6 +38,18 @@ function init(){
   }//
 }
 function step(){//Handles steping our state
+  //First, let's check to see if either our guy is hit, or an enemy is height
+  for(var i=0; i<ship.shotsFired.length;i++){
+    for(var j=0; j<enemies.enemies.length;j++){
+      enemies.enemies[j].hit(ship.shotsFired[i].xPos,ship.shotsFired[i].yPos)
+      if(enemies.enemies[j].dead()){//Ok if the current enemy we are checking is dead
+        enemies.enemies.splice(j,1);//Remove the Enemy
+        ship.shotsFired.splice(i,1);//And the bullet
+        break;
+      }
+    }
+  }
+  //Next let's step our enemies, and our ship
   enemies.step()
   ship.step()
 }
