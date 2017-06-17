@@ -8,8 +8,11 @@ var stars;        //our stars
 var ship;         //The Player Ship
 var img;          //Image
 var enemies;
-var iv
+var iv;
+var tickNum;
+var spawns;
 var stopAnimating=false
+
 function init(){
   //Setting up our canvas
   console.log("Preping Canvas")
@@ -22,13 +25,14 @@ function init(){
   //Next up, setting up our state machine
   console.log("Shattering Splines")
   sm=new stateMachine();
+  //Setting our tick count
+  tickNum=0;
   //setting up our game objects
   console.log("Making Starfield")
   stars=new starfield(width, height)
   console.log(stars)
-  //Any other things we need to do goes below
+  //Spawning our Player
   var img=new Image();
-  enemies=new enemyHandler();
   img.src="./Player_Ship_Standin.png";
   img.onload = function() {
     console.log("Assembling Ship")
@@ -36,9 +40,21 @@ function init(){
     iv=window.setInterval(step,10)
     redrawScreen()
   }//
+  //Setting up our enemies
+  enemies=new enemyHandler();
+  spawns=[]
+  spawns[30]=function(){enemies.enemies.push(new basicEnemy(0,0))}
+  spawns[100]=spawns[30]
+  spawns[200]=spawns[30]
+}
+function isFunction(functionToCheck) {//Taken from: https://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
+ var getType = {};
+ return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 function step(){//Handles steping our state
-  //First, let's check to see if either our guy is hit, or an enemy is height
+  //First, let's increment our tick count
+  tickNum++;
+  //Second, let's check to see if either our guy is hit, or an enemy is height
   for(var i=0; i<ship.shotsFired.length;i++){
     for(var j=0; j<enemies.enemies.length;j++){
       enemies.enemies[j].hit(ship.shotsFired[i].xPos,ship.shotsFired[i].yPos)
@@ -52,6 +68,10 @@ function step(){//Handles steping our state
   //Next let's step our enemies, and our ship
   enemies.step()
   ship.step()
+  //Then we are going to execute anything in spawns
+  if(isFunction(spawns[tickNum])){
+    spawns[tickNum]();
+  }
 }
 function stop(){
   clearInterval(iv)

@@ -61,7 +61,6 @@ class basicEnemy extends enemy{
 class enemyHandler{
   constructor(){
     this.enemies=[]
-    this.enemies.push(new basicEnemy(0,0))
   }
   step(){
     for(var i=0; i<this.enemies.length;i++){
