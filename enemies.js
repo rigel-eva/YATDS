@@ -58,6 +58,32 @@ class basicEnemy extends enemy{
     return this.shot||this.yPos>height
   }
 }
+class parametricEnemy extends basicEnemy{
+  constructor(xPos,yPos,xFunc,yFunc,stepMultiplyer){
+    super(xPos,yPos)
+    this.width=20
+    this.height=20
+    this.stepMultiplyer=stepMultiplyer
+    this.xFunc=xFunc
+    this.yFunc=yFunc
+    this.tick=0
+  }
+  step(){
+    this.tick++
+    this.xPos=this.xFunc(this.tick*this.stepMultiplyer)
+    this.yPos=this.yFunc(this.tick*this.stepMultiplyer)
+  }
+  draw(canvasContext){
+    canvasContext.fillStyle="#7f7f00"
+    canvasContext.fillRect(this.xPos,this.yPos,this.width,this.height)
+  }
+  hit(xPos,yPos){
+    super.hit(xPos,yPos)
+  }
+  dead(){
+    return this.shot
+  }
+}
 class enemyHandler{
   constructor(){
     this.enemies=[]
