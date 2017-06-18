@@ -1,6 +1,7 @@
 /*jslint indent: false, asi:true*/
 /*jshint esversion: 6*/
-
+//Ok, Going to be lazy with the Bezier curves and just import a library
+import * as bezier from './bezier.js'
 class enemy{
   constructor(xPos,yPos){
     this.xPos = xPos
@@ -87,6 +88,21 @@ class parametricEnemy extends basicEnemy{
   }
   dead(){
     return this.shot||this.yPos>height
+  }
+}
+class beizerEnemy extends parametricEnemy{
+  constructor(curveData,stepMultiplyer,img){
+    var curveData="M10 10 C 20 20, 40 20, 50 10"
+    //Ok, I think we can reasonably assume that the first part of our data is going to be a moveto, and the second part is going to be the actual curve
+    curveData=curveData.toUpperCase().split("C")
+    var xPos=curveData[0].split("M").
+    var xBeizer=function(tick){
+
+    }
+    var yBeizer=function(tick){
+
+    }
+    super(xPos,yPos,,,stepMultiplyer,img)
   }
 }
 class enemyHandler{
