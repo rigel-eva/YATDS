@@ -2,12 +2,11 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <script src="./bezier.js"></script>
-    <script src="./stateMachine.js"></script>
-    <script src="./starfield.js"></script>
-    <script src="./playerShip.js"></script>
-    <script src="./enemies.js"></script>
-    <script src="./gameLoop.js"></script>
+    <script src="./scripts/stateMachine.js"></script>
+    <script src="./scripts/starfield.js"></script>
+    <script src="./scripts/playerShip.js"></script>
+    <script src="./scripts/enemies.js"></script>
+    <script src="./scripts/gameLoop.js"></script>
     <style>
       .sprite{
         display:none
@@ -16,8 +15,8 @@
     </script>
   </head>
   <body onload="init()">
-    <img id="player" class="sprite" src="./Player_Ship_Standin.png" visibility="hidden"></img>
-    <img id="ballEnemy" class="sprite" src="./genericBall.png" visibility="hidden"></img>
+    <img id="player" class="sprite" src="./sprites/Player_Ship_Standin.png" visibility="hidden"></img>
+    <img id="ballEnemy" class="sprite" src="./sprites/genericBall.png" visibility="hidden"></img>
     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 			 viewBox="0 0 202.1 455.9" style="enable-background:new 0 0 202.1 455.9;" xml:space="preserve" display="none">
 		<style type="text/css">
