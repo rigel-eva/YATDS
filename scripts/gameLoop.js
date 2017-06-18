@@ -42,18 +42,22 @@ function init(){
   var spawnBasic=function(){enemies.enemies.push(new basicEnemy(0,0))}
   var roundImg=document.getElementById("ballEnemy")
   var spawnCycloid=function(){enemies.enemies.push(new parametricEnemy(0,0,
-  function(tick){
-    return 59*(1-Math.cos(tick))
+  function(tick){return 59*(1-Math.cos(tick))
   },
-  function(tick){
-    return 59*(tick+Math.sin(tick))
+  function(tick){return 59*(tick+Math.sin(tick))
   },
   Math.PI/580,
   ballEnemy
 ))}
+  var spawnBezier=function(){
+    enemies.enemies.push(new bezierEnemy(document.getElementsByClassName("st0")[0].getAttribute("d"),0.001,ballEnemy))
+  }
   spawns[0]=spawnBasic
   for(var i=1; i<30; i++){
     spawns[i*30]=spawnCycloid
+  }
+  for(var i=1;i<30;i++){
+    spawns[i*30+1]=spawnBezier
   }
   spawns[30]=spawnCycloid
   iv=window.setInterval(step,5)

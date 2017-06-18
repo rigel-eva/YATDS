@@ -1,6 +1,6 @@
 /*jslint indent: false, asi:true*/
 /*jshint esversion: 6*/
-
+//Ok, Going to be lazy with the Bezier curves and just import a library
 class enemy{
   constructor(xPos,yPos){
     this.xPos = xPos
@@ -87,6 +87,33 @@ class parametricEnemy extends basicEnemy{
   }
   dead(){
     return this.shot||this.yPos>height
+  }
+}
+class bezierEnemy extends parametricEnemy{
+  constructor(pathData, stepMultiplyer,img){  //Ok, first we are going to process our "path data"
+    pathData=pathData.toUpperCase().split("C")//Splitting up on cubic curves
+    pathData[0]=pathData[0].split("M")[1]//Doing a bit of processing for our starting oint
+    for(var i=0; i<pathData.length;i++){//And creating subarrays for the points on each of our curves
+      pathData[i]=pathData[i].split(",")
+    }
+    //Then we are going to generate our formulas
+    var xFunc=function(t){
+      var arrayAt=Math.floor(t)+1
+      t=t%1
+      return (1-t)**3*pathData[arrayAt-1][pathData[arrayAt-1].length-2]+3*(1-t)**2*t*pathData[arrayAt][0]+3*(1-t)*t**2**pathData[arrayAt][2]+t**3*pathData[arrayAt][4]
+    }
+    var yFunc=function(t){
+      var arrayAt=Math.floor(t)+1
+      if(t>pathData.length-2){
+        return height+100
+      }
+      t=t%1
+      return (1-t)**3*pathData[arrayAt-1][pathData[arrayAt-1].length-1]+3*(1-t)**2*t*pathData[arrayAt][1]+3*(1-t)*t**2*pathData[arrayAt][3]+t**3*pathData[arrayAt][5]
+    }
+    super(pathData[0][0],pathData[0][1],xFunc,yFunc,stepMultiplyer,img)
+  }
+  step(){
+    super.step()
   }
 }
 class enemyHandler{
