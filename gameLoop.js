@@ -44,11 +44,21 @@ function init(){
   enemies=new enemyHandler();
   spawns=[]
   var spawnBasic=function(){enemies.enemies.push(new basicEnemy(0,0))}
-  for(var i=0; i<10; i++){
-    for(var j=0; j<10; j++){
-      spawns[i*2000+j*100]=spawnBasic
-    }
+  var spawnCycloid=function(){enemies.enemies.push(new parametricEnemy(0,0,
+  function(tick){
+    return 59*(1-Math.cos(tick))
+  },
+  function(tick){
+    return 59*(tick+Math.sin(tick))
+  },
+  Math.PI/580
+))}
+  spawns[0]=spawnBasic
+  for(var i=1; i<30; i++){
+    spawns[i*30]=spawnCycloid
   }
+  spawns[30]=spawnCycloid
+
 }
 function isFunction(functionToCheck) {//Taken from: https://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
  var getType = {};
