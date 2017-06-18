@@ -86,7 +86,7 @@ class parametricEnemy extends basicEnemy{
     super.hit(xPos,yPos)
   }
   dead(){
-    return this.shot
+    return this.shot||this.yPos>height
   }
 }
 class enemyHandler{
