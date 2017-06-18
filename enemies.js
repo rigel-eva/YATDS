@@ -59,7 +59,7 @@ class basicEnemy extends enemy{
   }
 }
 class parametricEnemy extends basicEnemy{
-  constructor(xPos,yPos,xFunc,yFunc,stepMultiplyer){
+  constructor(xPos,yPos,xFunc,yFunc,stepMultiplyer,img){
     super(xPos,yPos)
     this.width=20
     this.height=20
@@ -67,6 +67,7 @@ class parametricEnemy extends basicEnemy{
     this.xFunc=xFunc
     this.yFunc=yFunc
     this.tick=0
+    this.img=img
   }
   step(){
     this.tick++
@@ -74,8 +75,12 @@ class parametricEnemy extends basicEnemy{
     this.yPos=this.yFunc(this.tick*this.stepMultiplyer)
   }
   draw(canvasContext){
-    canvasContext.fillStyle="#7f7f00"
-    canvasContext.fillRect(this.xPos,this.yPos,this.width,this.height)
+    if(!this.img){
+      canvasContext.fillStyle="#7f7f00"
+      canvasContext.fillRect(this.xPos,this.yPos,this.width,this.height)
+    }else{
+      canvasContext.drawImage(this.img,this.xPos,this.yPos)
+    }
   }
   hit(xPos,yPos){
     super.hit(xPos,yPos)

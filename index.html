@@ -7,10 +7,16 @@
     <script src="./playerShip.js"></script>
     <script src="./enemies.js"></script>
     <script src="./gameLoop.js"></script>
-    <script>
+    <style>
+      .sprite{
+        display:none
+      }
+    </style>
     </script>
   </head>
   <body onload="init()">
+    <img id="player" class="sprite" src="./Player_Ship_Standin.png" visibility="hidden"></img>
+    <img id="ballEnemy" class="sprite" src="./genericBall.png" visibility="hidden"></img>
     <canvas width=640 height=480>
       <!--Why 640x480? Retro man, retro.-->
     </canvas>

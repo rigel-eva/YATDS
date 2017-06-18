@@ -32,18 +32,15 @@ function init(){
   stars=new starfield(width, height)
   console.log(stars)
   //Spawning our Player
-  var img=new Image();
-  img.src="./Player_Ship_Standin.png";
-  img.onload = function() {
-    console.log("Assembling Ship")
-    ship=new playerShip(sm,width,height,img)
-    iv=window.setInterval(step,5)
-    redrawScreen()
-  }//
+  console.log("Assembling Ship")
+  var img=document.getElementById("player")
+  ship=new playerShip(sm,width,height,img)
   //Setting up our enemies
+  console.log("Setting up Level 0")
   enemies=new enemyHandler();
   spawns=[]
   var spawnBasic=function(){enemies.enemies.push(new basicEnemy(0,0))}
+  var roundImg=document.getElementById("ballEnemy")
   var spawnCycloid=function(){enemies.enemies.push(new parametricEnemy(0,0,
   function(tick){
     return 59*(1-Math.cos(tick))
@@ -51,13 +48,16 @@ function init(){
   function(tick){
     return 59*(tick+Math.sin(tick))
   },
-  Math.PI/580
+  Math.PI/580,
+  ballEnemy
 ))}
   spawns[0]=spawnBasic
   for(var i=1; i<30; i++){
     spawns[i*30]=spawnCycloid
   }
   spawns[30]=spawnCycloid
+  iv=window.setInterval(step,5)
+  redrawScreen()
 
 }
 function isFunction(functionToCheck) {//Taken from: https://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
