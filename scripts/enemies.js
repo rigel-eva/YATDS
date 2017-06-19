@@ -88,34 +88,11 @@ class parametricEnemy extends basicEnemy{
     return this.shot||this.yPos>height
   }
 }
-class bezier{
-  constructor(pathData){
-    pathData=pathData.toUpperCase().split("C")//Splitting up on cubic curves
-    pathData[0]=pathData[0].split("M")[1]//Doing a bit of processing for our starting oint
-    for(var i=0; i<pathData.length;i++){//And creating subarrays for the points on each of our curves
-      pathData[i]=pathData[i].split(",")
-    }
-    this.pathData=pathData
-  }
-  xFunc(t){
-    var arrayAt=Math.floor(t)+1
-    t=t%1
-    return (1-t)**3*this.pathData[arrayAt-1][this.pathData[arrayAt-1].length-2]+3*(1-t)**2*t*this.pathData[arrayAt][0]+3*(1-t)*t**2**this.pathData[arrayAt][2]+t**3*this.pathData[arrayAt][4]
-  }
-  yFunc(t){
-    var arrayAt=Math.floor(t)+1
-    if(t>this.pathData.length-2){
-      this.shot=true
-      return 100//Someplace guranteed to be off screen
-    }
-    t=t%1
-    return (1-t)**3*this.pathData[arrayAt-1][this.pathData[arrayAt-1].length-1]+3*(1-t)**2*t*this.pathData[arrayAt][1]+3*(1-t)*t**2*this.pathData[arrayAt][3]+t**3*this.pathData[arrayAt][5]
-  }
-}
+
 class bezierEnemy extends parametricEnemy{
   constructor(pathData, stepMultiplyer,img){
     super(null,null,null,null,stepMultiplyer,img)
-    this.path=new bezier(pathData)
+    this.path=new oldCurve(pathData)
     this.xPos=this.path.xFunc(0)
     this.yPos=this.path.yFunc(0)
     this.xFunc=this.path.xFunc.bind(this.path)
