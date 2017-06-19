@@ -65,15 +65,19 @@ class quadradicBezier extends linearBezier{
   constructor(v1,v2,v3){
     super(v1,v2)
     this.v3=v3
+
+    this.lBezier1=new linearBezier(this.v1,this.v2)
+    this.lBezier2=new linearBezier(this.v2,this.v3)
     //this.lBezier1=new linearBezier(v1,v2)
     //this.lBezier2=new linearBezier(v2,v3)
   }
   func(t){// BUG: Alright, this isn't generating the appropriate vaules for the function ... need to look into that
     //B(t)=(1-t)*[(1-t)*p0+t*p1]+t*[(1-t)*p1+t*P2]
     //Just seperating these out just for sanity's sake
-    var tempVec1=this.v1.scalarMultiply(1-t).addition(this.v2.scalarMultiply(t))
-    var tempVec2=this.v2.scalarMultiply(1-t).addition(this.v3.scalarMultiply(t))
-    return tempVec1.addition(tempVec2)
+    //var tempVec1=this.v1.scalarMultiply(1-t).addition(this.v2.scalarMultiply(t))
+    //var tempVec2=this.v2.scalarMultiply(1-t).addition(this.v3.scalarMultiply(t))
+    return this.lBezier1.func(t).scalarMultiply(1-t).addition(this.lBezier2.func(t).scalarMultiply(t))
+    //return tempVec1.addition(tempVec2)
   }
 }
 class cubicBezier extends quadradicBezier{
