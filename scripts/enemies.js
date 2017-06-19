@@ -105,7 +105,8 @@ class bezierEnemy extends parametricEnemy{
     var yFunc=function(t){
       var arrayAt=Math.floor(t)+1
       if(t>pathData.length-2){
-        return height+100
+        this.shot=true
+        return 100//Someplace guranteed to be off screen
       }
       t=t%1
       return (1-t)**3*pathData[arrayAt-1][pathData[arrayAt-1].length-1]+3*(1-t)**2*t*pathData[arrayAt][1]+3*(1-t)*t**2*pathData[arrayAt][3]+t**3*pathData[arrayAt][5]

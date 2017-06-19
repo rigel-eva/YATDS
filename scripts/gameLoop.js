@@ -52,14 +52,13 @@ function init(){
   var spawnBezier=function(){
     enemies.enemies.push(new bezierEnemy(document.getElementsByClassName("st0")[0].getAttribute("d"),0.001,ballEnemy))
   }
-  spawns[0]=spawnBasic
-  for(var i=1; i<30; i++){
+  //spawns[0]=spawnBasic
+  /*for(var i=1; i<30; i++){
     spawns[i*30]=spawnCycloid
-  }
+  }*/
   for(var i=1;i<30;i++){
     spawns[i*30+1]=spawnBezier
   }
-  spawns[30]=spawnCycloid
   iv=window.setInterval(step,5)
   redrawScreen()
 

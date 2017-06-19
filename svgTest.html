@@ -1,10 +1,50 @@
 <html>
 	<head>
+		<script>
+			function init(){
+				var pathData=document.getElementsByClassName("st0")[0].getAttribute("d")
+				pathData=pathData.toUpperCase().split("C")//Splitting up on cubic curves
+		    pathData[0]=pathData[0].split("M")[1]//Doing a bit of processing for our starting oint
+		    for(var i=0; i<pathData.length;i++){//And creating subarrays for the points on each of our curves
+		      pathData[i]=pathData[i].split(",")
+		    }
+		    //Then we are going to generate our formulas
+		    var xFunc=function(t){
+		      var arrayAt=Math.floor(t)+1
+		      t=t%1
+		      return (1-t)**3*pathData[arrayAt-1][pathData[arrayAt-1].length-2]+3*(1-t)**2*t*pathData[arrayAt][0]+3*(1-t)*t**2**pathData[arrayAt][2]+t**3*pathData[arrayAt][4]
+		    }
+		    var yFunc=function(t){
+		      var arrayAt=Math.floor(t)+1
+		      if(t>pathData.length-2){
+		        this.shot=true
+		        return 100//Someplace guranteed to be off screen
+		      }
+				}
+				c=document.getElementsByTagName("canvas")[0]
+			  canvasContext=c.getContext("2d")
+			  var imageData=canvasContext.getImageData(0,0,640,480)
+				for(var i=0; i<pathData.length-1;i+=.001){
+					//4 chanels
+					var arrayLocation=Math.floor(xFunc(i))+640*Math.floor(yFunc(i))*4
+					imageData[arrayLocation]=0
+					imageData[arrayLocation+1]=0
+					imageData[arrayLocation+2]=0
+					imageData[arrayLocation+3]=255
+				}
+		    canvasContext.putImageData(imageData,0,0)
+			}
+		</script>
 	</head>
-	<body>
+	<body onload="init()">
+		<canvas width=640 height=480>
+		</canvas>
 		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-			 viewBox="0 0 202.1 455.9" style="enable-background:new 0 0 202.1 455.9;" xml:space="preserve" width:640 height:480>
-			 <path d="M0 0 C 20 20, 40 20, 50 10" stroke="black" fill="transparent"/>
+			 viewBox="0 0 202.1 455.9" style="enable-background:new 0 0 202.1 455.9;" xml:space="preserve" width=640 height=480>
+		<style type="text/css">
+			.st0{fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;}
+		</style>
+		<path class="st0" d="M-97.4,297.4c28.8,119.6,133.7,197,235.3,188.5C276,474.3,374.4,306.7,327.1,202.4C279.8,98.3,93.3,70.6,55.9,121.1C0.1,196.5,235.1,500,319.2,479.3c73.8-26.9,5.4-301.9,75.5-325.9c51.9-17.8,147.6,113,248.2,284.2c248.2,248.2,640,480,640,480"/>
 		</svg>
 
 	</body>
