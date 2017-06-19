@@ -88,11 +88,10 @@ class parametricEnemy extends basicEnemy{
     return this.shot||this.yPos>height
   }
 }
-
 class bezierEnemy extends parametricEnemy{
   constructor(pathData, stepMultiplyer,img){
     super(null,null,null,null,stepMultiplyer,img)
-    this.path=new oldCurve(pathData)
+    this.path=svgPathToBezierSpline(pathData)
     this.xPos=this.path.xFunc(0)
     this.yPos=this.path.yFunc(0)
     this.xFunc=this.path.xFunc.bind(this.path)
@@ -103,6 +102,9 @@ class bezierEnemy extends parametricEnemy{
       console.log(String(this.tick*this.stepMultiplyer)+":"+String(this.xPos)+","+String(this.yPos))
     }*/
     super.step()
+  }
+  dead(){
+    return this.shot||this.path.length<this.tick*this.stepMultiplyer
   }
 }
 class enemyHandler{
