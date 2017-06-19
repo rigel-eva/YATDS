@@ -45,13 +45,12 @@ class vector2D extends point{
     return new vector2D(this.x1*scalar,this.y1*scalar)
   }
 }
-class linearBezier{
-  constructor(v1,v2){//Ok, only doing vectors here just to make the code easier later
-    this.v1=v1
-    this.v2=v2
+class shape{
+  constructor(){
+
   }
-  func(t){//Takes in a scalar in [0,1] Returns a vector
-    return this.v2.subtraction(this.v1).scalarMultiply(t).addition(this.v1)
+  func(t){
+    return new vector2D(0,0)
   }
   xFunc(t){
     return func(t).x1
@@ -60,35 +59,38 @@ class linearBezier{
     return func(t).y1
   }
 }
-//HERE LIES KRAKENS
-class quadradicBezier extends linearBezier{
-  constructor(v1,v2,v3){
-    super(v1,v2)
-    this.v3=v3
-
-    this.lBezier1=new linearBezier(this.v1,this.v2)
-    this.lBezier2=new linearBezier(this.v2,this.v3)
-    //this.lBezier1=new linearBezier(v1,v2)
-    //this.lBezier2=new linearBezier(v2,v3)
+class linearBezier extends shape{
+  constructor(v1,v2){//Ok, only doing vectors here just to make the code easier later
+    super()
+    this.v1=v1
+    this.v2=v2
   }
-  func(t){// BUG: Alright, this isn't generating the appropriate vaules for the function ... need to look into that
-    //B(t)=(1-t)*[(1-t)*p0+t*p1]+t*[(1-t)*p1+t*P2]
-    //Just seperating these out just for sanity's sake
-    //var tempVec1=this.v1.scalarMultiply(1-t).addition(this.v2.scalarMultiply(t))
-    //var tempVec2=this.v2.scalarMultiply(1-t).addition(this.v3.scalarMultiply(t))
-    return this.lBezier1.func(t).scalarMultiply(1-t).addition(this.lBezier2.func(t).scalarMultiply(t))
-    //return tempVec1.addition(tempVec2)
+  func(t){//Takes in a scalar in [0,1] Returns a vector
+    return this.v2.subtraction(this.v1).scalarMultiply(t).addition(this.v1)
   }
 }
-class cubicBezier extends quadradicBezier{
-  constructor(v1,v2,v3,v4){
-    super(v1,v2,v3)
-    this.v4=v4
-    //These are here to ease calculation
-    this.qBezier1 = new quadradicBezier(this.v1,this.v2,this.v3)
-    this.qBezier2 = new quadradicBezier(this.v2,this.v3,this.v4)
+class bezier extends shape{
+  constructor(vectors){
+    super()
+    this.bezier0=new shape()
+    this.bezier1=new shape()
+    console.log(vectors.length)
+    if(vectors.length==3){
+      this.bezier0=new linearBezier(vectors[0],vectors[1])
+      this.bezier1=new linearBezier(vectors[1],vectors[2])
+    }
+    else{
+      var vectors0=vectors.slice()
+      var vectors1=vectors.slice()
+      vectors0.splice(vectors0.length-1,1)
+      vectors1.splice(0,1)
+      //It's Beziers all the way down
+      this.bezier0=new bezier(vectors0)
+      this.bezier1=new bezier(vectors1)
+    }
+
   }
   func(t){
-    return this.qBezier1.func(t).scalarMultiply(1-t).addition(this.qBezier2.func(t).scalarMultiply(t))
+    return this.bezier0.func(t).scalarMultiply(1-t).addition(this.bezier1.func(t).scalarMultiply(t))
   }
 }
