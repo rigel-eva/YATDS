@@ -15,7 +15,11 @@
       .st0{
         fill:none;
         stroke:#00FF00;
-        stroke-miterlimit:10;}
+        stroke-miterlimit:10;
+      }
+      .debug{
+        display:none;
+      }
       #Layer_1{
 
       }
@@ -33,10 +37,11 @@
     <canvas id="gameArea" width=640 height=480>
       <!--Why 640x480? Retro man,  retro.-->
     </canvas>
-    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    <svg version="1.1" id="Layer_1" class=debug xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 			 viewBox="0 0 640 480" xml:space="preserve" width=640 height=480>
-    <path class="st0" d="M33.2,37.3c0,0,253.9,427.1,411.8,300.7c96.7-77.3,82.7-163.1,56.6-218.8C484.7,83.3,441,69,405.9,87.6
-    	C290.4,148.7,44.6,291.8,136,360"/>
+       <path class="st0" d="M33.2,37.3C33.2,37.3,287.1,464.4,445,338C605,210,462,59,462,59S18,272,136,360"/>
+       <path class="EnemyPath1" d="M-37-63c0,0,324.1,527.4,482,401c96.7-77.3,82.7-163.1,56.6-218.8C484.7,83.3,387,35,241.9,166
+       	C136.6,243.2,186,500,434,517"/>
 		</svg>
   </body>
 </html>

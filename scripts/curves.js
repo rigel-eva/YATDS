@@ -114,9 +114,12 @@ function svgPathToVectorLists(data){
     if(commandChar.toLowerCase()=="s"){//ok special case for smooth splines
       //Grab the last known control point
       var lastControlPoint=aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-2]
-      lastControlPoint=lastControlPoint.scalarMultiply(-1)
-      if(relative){//If it's relative let's quickly fix the issue that may come up ... by subtracting the endpoint
+      if(!relative){//Ok if it isn't relative we need to make it relative
         lastControlPoint=lastControlPoint.subtraction(aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1])
+      }
+      lastControlPoint=lastControlPoint.scalarMultiply(-1)
+      if(!relative){//And wwe are going to undo anything that we may have screwed up
+        lastControlPoint=lastControlPoint.addition(aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1])
       }
       //Multiply it by -1 (giving it's inverse)
       //and splice that into our mysData

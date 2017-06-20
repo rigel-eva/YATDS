@@ -56,9 +56,9 @@ function init(){
   /*for(var i=1; i<30; i++){
     spawns[i*30]=spawnCycloid
   }*/
-  /*for(var i=1;i<30;i++){
+  for(var i=1;i<30;i++){
     spawns[i*30+1]=spawnBezier
-  }*/
+  }
   enemies.enemies.push(new bezierEnemy(document.getElementsByClassName("st0")[0].getAttribute("d"),0.001,ballEnemy))
   iv=window.setInterval(step,5)
   redrawScreen()
