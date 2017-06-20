@@ -95,7 +95,7 @@ class bezierSpline extends shape{
     return this.beziers[Math.floor(t)].vectorAt(t%1);
   }
 }
-function svgPathToBezierSpline(data){//BUG:Should treat lower case and uppercase movement codes differently ... THIS IS WHATS SCREWING STUFF UP
+function svgPathToVectorLists(data){
   var aOfAOfV=[]//Array of array of vectors
   //First of all I'm not assuming clean data
   /*
@@ -109,13 +109,11 @@ function svgPathToBezierSpline(data){//BUG:Should treat lower case and uppercase
   myData.splice(0,1)
   for(var i=0; i<myData.length;i++){//Next we are seperating them out into coordinates
     var commandChar=myData[i].charAt(0)
-    console.log(commandChar)
     var relative=commandChar.toLowerCase()==commandChar//Checks if our command is going to be relative
     myData[i]=myData[i].substr(1).split(',')
     if(commandChar.toLowerCase()=="s"){//ok special case for smooth splines
       //Grab the last known control point
       var lastControlPoint=aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-2]
-      console.log(lastControlPoint)
       lastControlPoint=lastControlPoint.scalarMultiply(-1)
       if(relative){//If it's relative let's quickly fix the issue that may come up ... by subtracting the endpoint
         lastControlPoint=lastControlPoint.subtraction(aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1])
@@ -125,20 +123,20 @@ function svgPathToBezierSpline(data){//BUG:Should treat lower case and uppercase
       myData[i].unshift(String(lastControlPoint.y1))
       myData[i].unshift(String(lastControlPoint.x1))
     }
-    console.log(myData[i])
     aOfAOfV.push([])//Push a fresh array
     for(var j=0;j<myData[i].length;j+=2){
       //And let's go ahead and start pushing our vectors into the array
       aOfAOfV[aOfAOfV.length-1].push(new vector2D(parseFloat(myData[i][j]),parseFloat(myData[i][j+1])))
       if(relative){//And our delta check
-        console.log(aOfAOfV[aOfAOfV.length-2][aOfAOfV[aOfAOfV.length-2].length-1])
         aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1]=
           aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1].//Grab the vector2D that we just pushed on
           addition(aOfAOfV[aOfAOfV.length-2][aOfAOfV[aOfAOfV.length-2].length-1])//and add it to the last vector2D of the previous array
       }
     }
-    console.log(aOfAOfV[aOfAOfV.length-1])
   }
+  return aOfAOfV
+}
+function svgPathToBezierSpline(data){
   //And finally let's go ahead and give our new spline a home.
-  return new bezierSpline(aOfAOfV)
+  return new bezierSpline(svgPathToVectorLists(data))
 }

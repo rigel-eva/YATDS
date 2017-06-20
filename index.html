@@ -12,21 +12,31 @@
       .sprite{
         display:none
       }
+      .st0{
+        fill:none;
+        stroke:#00FF00;
+        stroke-miterlimit:10;}
+      #Layer_1{
+
+      }
+      #gameArea{
+          position:absolute;
+          left:0px;
+          top:0px;
+          z-index: -1;
+      }
     </style>
-    </script>
   </head>
   <body onload="init()">
     <img id="player" class="sprite" src="./sprites/Player_Ship_Standin.png"></img>
     <img id="ballEnemy" class="sprite" src="./sprites/genericBall.png"></img>
-    <canvas width=640 height=480>
+    <canvas id="gameArea" width=640 height=480>
       <!--Why 640x480? Retro man,  retro.-->
     </canvas>
     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-			 viewBox="0 0 202.1 455.9" style="enable-background:new 0 0 202.1 455.9;" xml:space="preserve" width=640 height=480 display="none">
-		<style type="text/css">
-			.st0{fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;}
-		</style>
-    <path class="st0" d="M-30-46c0,0,419,602,670,405s81.6-378.7,81.6-378.7S-102,170,136,360"/>
+			 viewBox="0 0 640 480" xml:space="preserve" width=640 height=480>
+    <path class="st0" d="M33.2,37.3c0,0,253.9,427.1,411.8,300.7c96.7-77.3,82.7-163.1,56.6-218.8C484.7,83.3,441,69,405.9,87.6
+    	C290.4,148.7,44.6,291.8,136,360"/>
 		</svg>
   </body>
 </html>
