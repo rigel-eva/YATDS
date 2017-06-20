@@ -71,7 +71,7 @@ class bezier extends shape{
     return this.bezier0.vectorAt(t).scalarMultiply(1-t).addition(this.bezier1.vectorAt(t).scalarMultiply(t))
   }
 }
-
+//Should add function for a pursuit curve: http://mathworld.wolfram.com/PursuitCurve.html
 class bezierSpline extends shape{
   //Ok, we are going to expect an array of arrys of vectors2D so, something like this:
   /*
@@ -95,18 +95,49 @@ class bezierSpline extends shape{
     return this.beziers[Math.floor(t)].vectorAt(t%1);
   }
 }
-function svgPathToBezierSpline(data){
+function svgPathToBezierSpline(data){//BUG:Should treat lower case and uppercase movement codes differently ... THIS IS WHATS SCREWING STUFF UP
   var aOfAOfV=[]//Array of array of vectors
   //First of all I'm not assuming clean data
-  data=data.replace(/\s/g,'').toUpperCase().split(/M|C|Q/)// FIXME: I need to add a way to deal with svgs putting in digits that are negative like this 10-30,23 without affecting other code
-  data.splice(0,1)//Getting rid of that first empty case
-  for(var i=0; i<data.length;i++){//Next we are seperating them out into coordinates
-    data[i]=data[i].split(',')
-    aOfAOfV.push([])//Push a fresh array
-    for(var j=0;j<data[i].length;j+=2){
-      //And let's go ahead and start pushing our vectors into the array
-      aOfAOfV[aOfAOfV.length-1].push(new vector2D(parseFloat(data[i][j]),parseFloat(data[i][j+1])))
+  /*
+  UPPERCASE COMMAND: all absolute values
+  lowercase command: all delta values
+  */
+  var myData=data.replace(/\s/g,'').  //Eliminates the whitespace that might be lurking in the command string
+        replace(/(\d)-/g,"$1,-").//Fixes the issue of having weird lack of commas which makes further processing more difficult
+        replace(/(M|C|Q|S|m|c|q|s)/g,"🕹️$1").//Sets up our split so we don't actually delete the commmand we are looking for
+        split("🕹️")                      //runs the actual split!
+  myData.splice(0,1)
+  for(var i=0; i<myData.length;i++){//Next we are seperating them out into coordinates
+    var commandChar=myData[i].charAt(0)
+    console.log(commandChar)
+    var relative=commandChar.toLowerCase()==commandChar//Checks if our command is going to be relative
+    myData[i]=myData[i].substr(1).split(',')
+    if(commandChar.toLowerCase()=="s"){//ok special case for smooth splines
+      //Grab the last known control point
+      var lastControlPoint=aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-2]
+      console.log(lastControlPoint)
+      lastControlPoint=lastControlPoint.scalarMultiply(-1)
+      if(relative){//If it's relative let's quickly fix the issue that may come up ... by subtracting the endpoint
+        lastControlPoint=lastControlPoint.subtraction(aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1])
+      }
+      //Multiply it by -1 (giving it's inverse)
+      //and splice that into our mysData
+      myData[i].unshift(String(lastControlPoint.y1))
+      myData[i].unshift(String(lastControlPoint.x1))
     }
+    console.log(myData[i])
+    aOfAOfV.push([])//Push a fresh array
+    for(var j=0;j<myData[i].length;j+=2){
+      //And let's go ahead and start pushing our vectors into the array
+      aOfAOfV[aOfAOfV.length-1].push(new vector2D(parseFloat(myData[i][j]),parseFloat(myData[i][j+1])))
+      if(relative){//And our delta check
+        console.log(aOfAOfV[aOfAOfV.length-2][aOfAOfV[aOfAOfV.length-2].length-1])
+        aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1]=
+          aOfAOfV[aOfAOfV.length-1][aOfAOfV[aOfAOfV.length-1].length-1].//Grab the vector2D that we just pushed on
+          addition(aOfAOfV[aOfAOfV.length-2][aOfAOfV[aOfAOfV.length-2].length-1])//and add it to the last vector2D of the previous array
+      }
+    }
+    console.log(aOfAOfV[aOfAOfV.length-1])
   }
   //And finally let's go ahead and give our new spline a home.
   return new bezierSpline(aOfAOfV)
