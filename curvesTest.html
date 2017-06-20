@@ -14,8 +14,12 @@
         stroke-miterlimit:10;
       }
       #paths{
-        enable-background:new 0 0 202.1 455.9;
         //display:none;
+      }
+      #debug{
+        position: absolute;
+        right:0px;
+        top:0px;
       }
     </style>
     <script src="./scripts/curves.js"></script>
@@ -24,17 +28,19 @@
       var path;   //Our Path
       var spline; //and our spline!
       var stepMultiplyer;
-      var imgData
       function init(){
         var c=document.getElementsByTagName("canvas")[0];//Getting our canvas to test on
         ctx=c.getContext("2d")
         stepMultiplyer=0.001
         path=document.getElementsByTagName("path")[0].getAttribute("d")
         spline=svgPathToBezierSpline(path)
-        drawSpline()
+
+        var imgData=ctx.getImageData(0,0,640,480)
+        drawSpline(imgData)
+        drawPointsOnCurve(imgData)
+        ctx.putImageData(imgData, 0, 0);
       }
-      function drawSpline(){
-        imgData=ctx.getImageData(0,0,640,480)
+      function drawSpline(imgData){
         var color=[0,255,0]
         /*for(var i=3; i<imgData.data.length; i+=4){
           imgData.data[i]=255
@@ -71,44 +77,42 @@
         }//*/
         ctx.putImageData(imgData, 0, 0);
       }
-      function drawPoints(){
-        let pointSize=5
+      function drawPointsOnCurve(imgData){
         let color=[255,0,0,255]
+        vectorData=svgPathToVectorLists(path)
+        //And then let's go ahead and paint our points
+        for(var i=0; i<vectorData.length; i++){
+          for(var j=0; j<vectorData[i].length-1; j++){
+
+            drawPoint(vectorData[i][j],[255,0,255,128],7,imgData)
+          }
+          drawPoint(vectorData[i][vectorData[i].length-1],[255,0,0,128],13,imgData)
+        }
+      }
+      function drawPoint(vector,color,pointSize, imgData){
         var pointShift=Math.ceil(pointSize-pointSize/2-1)
         var shiftArray=[]
+        var debug=document.getElementById("debug")
+        debug.innerHTML=debug.innerHTML+"Drawing Point at ("+String(vector.x1)+","+String(vector.y1)+")</br>"
         //Ok, let's go ahead and generate our shiftArray
         for(var i=0; i<pointSize; i++){
           for(var j=0; j<pointSize; j++){
             shiftArray.push(new vector2D(pointShift-i,pointShift-j))
           }
         }
-        //Alright, next let's go ahead and grab our points
-        var points1d=[]
-        points1d=path.replace(/\s/g,'').toUpperCase().split(/M|C|Q|,/)
-        points1d.splice(0,1)
-        var points2d=[]
-        for(var i=0; i<points1d.length-1; i+=2){
-          points2d.push(new vector2D(parseFloat(points1d[i]),parseFloat(points1d[i+1])))
-        }
-        //Next let's go ahead and grab our imageData
-        imgData=ctx.getImageData(0,0,640,480)
-        //And then let's go ahead and paint our points
-        for(var i=0; i<points2d.length; i++){//This is for our points
-          for(var j=0; j<shiftArray.length;j++){//and this is our shift array
-            //alright now that we are in the second loop let's go ahead and get our combined point
-            var metaPoint=points2d[i].addition(shiftArray[j]).addition(points2d[0])
-            if(i==0){
-              metaPoint=metaPoint.subtraction(points2d[0])
-            }
-            //And let's go ahead and convert it to an array address
-            var arrayAddress=4*(Math.floor(metaPoint.x1)+Math.floor(metaPoint.y1)*imgData.width)
-            imgData.data[arrayAddress]=color[0]
-            imgData.data[arrayAddress+1]=color[1]
-            imgData.data[arrayAddress+2]=color[2]
-            imgData.data[arrayAddress+3]=color[3]
+        for(var j=0; j<shiftArray.length;j++){//and this is our shift array
+          //alright now that we are in the second loop let's go ahead and get our combined point
+          var metaPoint=vector.addition(shiftArray[j]).addition(vector)
+          if(i==0){
+            metaPoint=vector.subtraction(vector)
           }
+          //And let's go ahead and convert it to an array address
+          var arrayAddress=4*(Math.floor(metaPoint.x1)+Math.floor(metaPoint.y1)*imgData.width)
+          imgData.data[arrayAddress]=color[0]
+          imgData.data[arrayAddress+1]=color[1]
+          imgData.data[arrayAddress+2]=color[2]
+          imgData.data[arrayAddress+3]=color[3]
         }
-        ctx.putImageData(imgData, 0, 0);
       }
     </script>
   </head>
@@ -116,7 +120,12 @@
     <canvas width=640 height=480 class="test">
     </canvas>
     <svg class="test"version="1.1" id="paths" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 640 480" width=640 height=480>
-      <path class="st0" d="M33.2,37.3C33.2,37.3,287.1,464.4,445,338C605,210,462,59,462,59S18,272,136,360"/>
+      <path class="st0" d="M33.2,37.3
+      C33.2,37.3,287.1,464.4,445,338
+      C605,210,462,59,462,59
+      S18,272,136,360"/>
     </svg>
+    <div id="debug">
+    </div>
   </body>
 </html>
