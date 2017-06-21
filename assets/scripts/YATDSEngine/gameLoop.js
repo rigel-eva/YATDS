@@ -12,7 +12,14 @@ var iv;
 var tickNum;
 var spawns;
 var stopAnimating=false
-
+function loadPaths(file){
+  //First let's go ahead and and remove any extranious paths
+  $("svg").children().remove()
+  //Then let's go ahead and grab the paths from the file, and just put it in the svg!
+  $.get(file,function(data){
+    $("svg").append($(data).find("path"))
+  })
+}
 function init(){
   //Setting up our canvas
   console.log("Preping Canvas")
@@ -36,33 +43,11 @@ function init(){
   var img=document.getElementById("player")
   ship=new playerShip(sm,width,height,img)
   //Setting up our enemies
-  console.log("Setting up Level 0")
   enemies=new enemyHandler();
   spawns=[]
-  var spawnBasic=function(){enemies.enemies.push(new basicEnemy(0,0))}
-  var roundImg=document.getElementById("ballEnemy")
-  var spawnCycloid=function(){enemies.enemies.push(new parametricEnemy(0,0,
-  function(tick){return 59*(1-Math.cos(tick))
-  },
-  function(tick){return 59*(tick+Math.sin(tick))
-  },
-  Math.PI/580,
-  ballEnemy
-))}
-  var spawnBezier=function(){
-    enemies.enemies.push(new bezierEnemy(document.getElementsByClassName("st0")[0].getAttribute("d"),0.001,ballEnemy))
-  }
-  //spawns[0]=spawnBasic
-  /*for(var i=1; i<30; i++){
-    spawns[i*30]=spawnCycloid
-  }*/
-  for(var i=1;i<30;i++){
-    spawns[i*30+1]=spawnBezier
-  }
-  enemies.enemies.push(new bezierEnemy(document.getElementsByClassName("st0")[0].getAttribute("d"),0.001,ballEnemy))
   iv=window.setInterval(step,5)
   redrawScreen()
-
+  $.getScript("assets/scripts/levels/level0.js")
 }
 function isFunction(functionToCheck) {//Taken from: https://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
  var getType = {};
