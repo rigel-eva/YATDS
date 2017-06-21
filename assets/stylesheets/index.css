@@ -1,0 +1,20 @@
+.sprite{
+  display:none
+}
+.st0{
+  fill:none;
+  stroke:#00FF00;
+  stroke-miterlimit:10;
+}
+.debug{
+  //display:none;
+}
+#Layer_1{
+
+}
+#gameArea{
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index: -1;
+}
