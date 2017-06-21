@@ -47,7 +47,7 @@ function init(){
   spawns=[]
   iv=window.setInterval(step,5)
   redrawScreen()
-  $.getScript("assets/scripts/levels/level0.js")
+  $.getScript("./assets/scripts/Levels/level0.js")
 }
 function isFunction(functionToCheck) {//Taken from: https://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
  var getType = {};
