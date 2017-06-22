@@ -10,7 +10,7 @@
   //display:none;
 }
 #Layer_1{
-
+  will-change:contents;
 }
 #gameArea{
     position:absolute;
