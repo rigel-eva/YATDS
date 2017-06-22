@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<head>
+  <meta charset="UTF-8">
+  <script>
+    var keyPrint
+    function keyHandler(e){
+      keyPrint.innerHTML=e.keyCode
+    }
+    function init(){
+      keyPrint=document.getElementById("keycode")
+      window.onkeydown=keyHandler
+    }
+  </script>
+</head>
+<body onload="init()">
+  <H1 id="keycode">Boop</H1>
+</body>
