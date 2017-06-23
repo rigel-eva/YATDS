@@ -7,7 +7,7 @@
   stroke-miterlimit:10;
 }
 .debug{
-  //display:none;
+  display:none;
 }
 #Layer_1{
   will-change:contents;
