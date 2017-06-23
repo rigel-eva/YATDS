@@ -5,6 +5,8 @@
 <style type="text/css">
 	.st0{fill:none;stroke:#000000;stroke-miterlimit:10;}
 </style>
-<path class="st0" d="M-37-63c0,0,324.1,527.4,482,401c96.7-77.3,82.7-163.1,56.6-218.8C484.7,83.3,387,35,241.9,166
-	C136.6,243.2,186,500,434,517"/>
+<path id="Basic_x5F_Path" class="st0" d="M320-126v311c0,0,307,542,658,192S640,0,640,0L-88.8,546.6L-266-84c0,0,586,84,586,564v438
+	"/>
+<path id="Quick_x5F_Right" class="st0" d="M736-34c0,0-416,36-416,952"/>
+<path id="Quick_x5F_Left" class="st0" d="M-88-34c0,0,407,36,407,952"/>
 </svg>

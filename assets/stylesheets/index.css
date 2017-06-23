@@ -11,10 +11,13 @@
 }
 #Layer_1{
   will-change:contents;
+  postion:absolute;
+  left:10px;
+  top:10px;
 }
 #gameArea{
     position:absolute;
-    left:0px;
-    top:0px;
+    left:10px;
+    top:10px;
     z-index: -1;
 }

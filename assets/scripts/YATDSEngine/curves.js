@@ -104,7 +104,7 @@ function svgPathToVectorLists(data){
   */
   var myData=data.replace(/\s/g,'').  //Eliminates the whitespace that might be lurking in the command string
         replace(/(\d)-/g,"$1,-").//Fixes the issue of having weird lack of commas which makes further processing more difficult
-        replace(/(M|C|Q|S|m|c|q|s)/g,"🕹️$1").//Sets up our split so we don't actually delete the commmand we are looking for
+        replace(/(M|C|Q|S|V|L|m|c|q|s|v|l)/g,"🕹️$1").//Sets up our split so we don't actually delete the commmand we are looking for
         split("🕹️")                      //runs the actual split!
   myData.splice(0,1)
   for(var i=0; i<myData.length;i++){//Next we are seperating them out into coordinates
@@ -125,6 +125,18 @@ function svgPathToVectorLists(data){
       //and splice that into our mysData
       myData[i].unshift(String(lastControlPoint.y1))
       myData[i].unshift(String(lastControlPoint.x1))
+    }
+    else if(commandChar=="v"){
+      myData[i].unshift("0")
+    }
+    else if(commandChar=="V"){
+      myData[i].unshift(myData[i-1][myData[i-1].length-2])
+    }
+    else if(commandChar=="h"){
+      myData[i].push(0)
+    }
+    else if(commandChar=="H"){
+      myData[i].unshift(myData[i-1][myData[i-1].length-1])
     }
     aOfAOfV.push([])//Push a fresh array
     for(var j=0;j<myData[i].length;j+=2){

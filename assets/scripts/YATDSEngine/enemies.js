@@ -70,8 +70,8 @@ class parametricEnemy extends basicEnemy{
   }
   step(){
     this.tick++
-    this.xPos=this.xFunc(this.tick*this.stepMultiplyer)
-    this.yPos=this.yFunc(this.tick*this.stepMultiplyer)
+    this.xPos=this.xFunc(this.tick*this.stepMultiplyer)-this.width/2
+    this.yPos=this.yFunc(this.tick*this.stepMultiplyer)-this.height/2
   }
   draw(canvasContext){
     if(!this.img){
